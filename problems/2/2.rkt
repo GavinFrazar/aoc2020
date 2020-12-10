@@ -21,6 +21,8 @@
 (define (main)
   ;; read input
   (define lines (file->lines "input.txt"))
+
+  ;; part 1 helper
   (define (count-occurrences line letter)
     (let ([line (string->list line)])
       (count (lambda (char) (eqv? char letter))
