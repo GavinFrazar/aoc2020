@@ -1,6 +1,5 @@
 #lang racket
 
-
 ;; tokenize the input lines and count the accepted lines using a predicate
 (define (solve predicate lines)
   (count
@@ -12,11 +11,6 @@
               [letter (car (string->list str-letter))])
          (predicate min max letter password))))
    lines))
-
-
-
-
-
 
 (define (main)
   ;; read input
@@ -35,12 +29,20 @@
                (and (>= letter-count min)
                     (<= letter-count max))))
            lines))
+
+  ;; part 2 helper
+  (define (get-slots first-pos second-pos password)
+    (let ([charvec (list->vector (string->list password))])
+      (cons (vector-ref charvec (- first-pos 1))
+            (vector-ref charvec (- second-pos 1)))))
   
   ;; solve part 2
   (define part-2-solution
     (solve
      (lambda (first-position second-position letter password)
-       #t)
+       (match-let ([(cons slot-1 slot-2) (get-slots first-position second-position password)])
+         (xor (eqv? slot-1 letter)
+              (eqv? slot-2 letter))))
      lines))
 
   ;; format the results nicely
